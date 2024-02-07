@@ -153,21 +153,6 @@ const store = createStore({
             state.addAuthor = '';
         },
 
-        async updateBook(state, book) {
-            try {
-                const response = await updateBook(book._id, book);
-
-                checkAuth(response);
-
-                if (response.status !== 200) throw new Error('Failed to update book');
-
-                state.books = state.books.map(b => b._id === book._id ? book : b);
-            }
-            catch (error) {
-                console.error(error);
-            }
-        },
-
         setUpdateBookId(state, id) {
             state.showEditBook = true;
             state.editBookId = id;
@@ -183,7 +168,7 @@ const store = createStore({
 
                 if (response.status !== 200) throw new Error('Failed to update book');
 
-                state.books = state.books.map(b => b._id === id ? book : b);
+                state.books = state.books.map(b => b._id === id ? response.data : b);
 
                 state.showEditBook = false;
             }
